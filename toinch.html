@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tektur:wght@600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #404040;
+            color: #fff;
+            font-family: 'Tektur', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        #mainContainer {
+            width: 500px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+        }
+
+        #result {
+            width: 100%;
+            height: 2.25em;
+            text-align: right;
+            font-size: 2.5em;
+            padding: 15px 10px;           
+            border-radius: 15px;
+            box-shadow: inset 8px 8px 14px #2c2c2c,
+            inset -8px -8px 14px #545454;
+        }
+
+        #inputContainer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        #inputContainer div {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #inputContainer div > label{
+            font-size: 1.25em;
+        }
+
+        .inputVal {
+            text-align: right;
+            width: 90%;
+            height: 2em;
+            font-size: 1.5em;
+            padding: 5px;
+            padding-right: 15px;
+            margin: 5px;
+            border-radius: 15px;
+            box-shadow: inset 5px 5px 10px #2e2e2e,
+            inset -5px -5px 10px #525252;
+            border: none;
+        }
+
+        #showResult {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            place-content: center;
+            color: black;
+            margin: 15px;
+        }
+        
+        #showResult select {
+            width: 75px;
+            height: 2.5em;
+            font-size: 1.25rem;
+            margin-right: 15px;
+            padding-left: 8px;
+            border-radius: 10px;
+            border: none;
+        }
+        #showResult button {
+            width: 100px;
+            height: 2.5em;
+            font-size: 1.25rem;
+            background-color: rgb(76, 73, 255);
+            outline: none;
+            border: none;
+            border-radius: 10px;
+        }
+        #extraDetails{
+            margin-top: 30px;
+        }
+        #widthDetails, #heightDetails, #sqftDetails{
+            margin: 10px 0px;
+        }
+        #widthDetails > ul, #heightDetails > ul, #sqftDetails > ul{
+            list-style-type: none;
+            margin-left: 20px;
+        }
+        @media screen and (max-width: 1000px) {
+            #mainContainer{
+                width: 100vw;
+                height: 100vh;
+                position: relative;
+                top: 0;
+                left: 0;
+                transform: translate(0,0);
+                padding: 10px;
+            }
+            #showResult{
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mainContainer">
+        <div>
+            <img src="
+            " alt="">
+        </div>
+        <div id="result"></div>
+        <div id="inputContainer">
+            <div>
+                <label for="value1">Width</label><br>
+                <input type="text" class="inputVal" id="value1">
+            </div>
+            <div>
+                <label for="value2">Height</label><br>
+                <input type="text" class="inputVal" id="value2">
+            </div>
+            <div>
+                <label for="rate">Rate/sqft</label><br>
+                <input type="text" class="inputVal" id="rate">
+            </div>
+            <div>
+                <label for="qty">Quantity</label><br>
+                <input type="text" class="inputVal" id="qty">
+            </div>
+        </div>
+        <div id="showResult">
+            <select name="measure" id="measure">
+                <option value="ft">ft</option>
+                <option value="inch">inch</option>
+                <option value="cm">cm</option>
+                <option value="mm">mm</option>
+            </select>
+            <button type="button" onclick="showOpt()">Calculate</button>
+        </div>
+        <div id="extraDetails">
+            <div id="widthDetails">
+                <p style="font-size: 1.25em;">Width : <span id="exWidth"></span></p>
+                <ul>
+                    <li>ft : <span class="Wex"></span></li>
+                    <li>inch : <span class="Wex"></span></li>
+                    <li>cm: <span class="Wex"></span></li>
+                    <li>mm : <span class="Wex"></span></li>
+                </ul>
+            </div>
+            <div id="heightDetails">
+                <p style="font-size: 1.25em;">Height : <span id="exHeight"></span></p>
+                <ul>
+                    <li>ft : <span class="Hex"></span></li>
+                    <li>inch : <span class="Hex"></span></li>
+                    <li>cm: <span class="Hex"></span></li>
+                    <li>mm : <span class="Hex"></span></li>
+                </ul>
+            </div>
+            <div id="sqftDetails">
+                <p style="font-size: 1.25em;">area/sq<span id="areaUnit">Ft</span> : <span id="exArea"></span></p>
+                <ul>
+                    <li>ft : <span class="Sqex"></span></li>
+                    <li>inch : <span class="Sqex"></span></li>
+                    <li>cm: <span class="Sqex"></span></li>
+                    <li>mm : <span class="Sqex"></span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        let Result = document.getElementById('result');
+        let Width = document.getElementById('value1');
+        let Height = document.getElementById('value2');
+        let UnitValue = document.getElementById('rate');
+        let Quantity = document.getElementById('qty');
+        let Options = document.getElementById('measure');
+        let ToFootWidth = 0;
+        let ToFootHeight = 0;
+
+        let ExWidth = document.querySelector('#exWidth');
+        let ExHeight = document.querySelector('#exHeight');
+        let ExArea = document.querySelector('#exArea');
+
+        //extra show
+        let Wex = document.getElementsByClassName('Wex');
+        let Hex = document.getElementsByClassName('Hex');
+        let Sqex = document.getElementsByClassName('Sqex');
+
+        let areaUnit = document.getElementById('areaUnit');
+
+        let calc = 0;
+        let Area = 0;
+        console.log(Area)
+        function showOpt() {
+            if(Width.value.length >= 1 && Height.value.length >= 1){
+            if (Options.value == 'ft') {
+                calc = parseFloat(Width.value) * parseFloat(Height.value) * parseFloat(UnitValue.value) * parseFloat(Quantity.value);
+                Result.innerHTML = Math.ceil(calc);
+
+                ExWidth.innerText = Width.value + 'ft';
+                ExHeight.innerText = Height.value + 'ft';
+                ExArea.innerText = parseFloat(Width.value) * parseFloat(Height.value) + '/sqft';
+
+            } else if (Options.value == 'inch') {
+                ToFootWidth = parseFloat(Width.value) / 12;
+                ToFootHeight = parseFloat(Height.value) / 12;
+                calc = parseFloat(ToFootWidth) * parseFloat(ToFootHeight) * parseFloat(UnitValue.value) * parseFloat(Quantity.value);
+                Result.innerHTML = Math.ceil(calc);
+
+                ExWidth.innerText = Width.value + 'inch';
+                ExHeight.innerText = Height.value + 'inch';
+                ExArea.innerText = parseFloat(Width.value) * parseFloat(Height.value) + '/sqinch';
+
+            } else if (Options.value == 'cm') {
+                ToFootWidth = parseFloat(Width.value) / 30.48;
+                ToFootHeight = parseFloat(Height.value) / 30.48;
+                calc = parseFloat(ToFootWidth) * parseFloat(ToFootHeight) * parseFloat(UnitValue.value) * parseFloat(Quantity.value);
+                Result.innerHTML = Math.ceil(calc);
+
+                ExWidth.innerText = Width.value + 'cm';
+                ExHeight.innerText = Height.value + 'cm';
+                ExArea.innerText = parseFloat(Width.value) * parseFloat(Height.value) + '/sqcm';
+
+            } else if (Options.value == 'mm') {
+                ToFootWidth = parseFloat(Width.value) / 304.8;
+                ToFootHeight = parseFloat(Height.value) / 304.8;
+                calc = parseFloat(ToFootWidth) * parseFloat(ToFootHeight) * parseFloat(UnitValue.value) * parseFloat(Quantity.value);
+                Result.innerHTML = Math.ceil(calc);
+
+                ExWidth.innerText = Width.value + 'mm';
+                ExHeight.innerText = Height.value + 'mm';
+                ExArea.innerText = parseFloat(Width.value) * parseFloat(Height.value) + '/sqmm';
+            }
+            showAll()
+        }else{
+            Result.innerText = 'INVALID';
+        }
+        }
+
+
+        function showAll() {
+
+            let myWidth = parseFloat(Width.value);
+            let myHeight = parseFloat(Height.value);
+
+            if (Options.value == 'ft') {
+                //Width
+                Wex[0].innerText = myWidth;
+                Wex[1].innerText = myWidth * 12;
+                Wex[2].innerText = myWidth * 30.48;
+                Wex[3].innerText = myWidth * 304.8;
+
+                //Height
+                Hex[0].innerText = myHeight;
+                Hex[1].innerText = myHeight * 12;
+                Hex[2].innerText = myHeight * 30.48;
+                Hex[3].innerText = myHeight * 304.8;
+
+                Sqex[0].innerText = (myWidth * myHeight);
+                Sqex[1].innerText = (myWidth * myHeight) * 144;
+                Sqex[2].innerText = (myWidth * myHeight) * 929.03;
+                Sqex[3].innerText = (myWidth * myHeight) * 92903;
+
+                areaUnit.innerText = 'Ft';
+            } else if (Options.value == 'inch') {
+                //Width
+                Wex[0].innerText = myWidth / 12;
+                Wex[1].innerText = myWidth;
+                Wex[2].innerText = myWidth * 2.54;
+                Wex[3].innerText = myWidth * 25.4;
+
+                //Height
+                Hex[0].innerText = myHeight / 12;
+                Hex[1].innerText = myHeight;
+                Hex[2].innerText = myHeight * 2.54;
+                Hex[3].innerText = myHeight * 25.4;
+
+                Sqex[0].innerText = (myWidth * myHeight) / 144;
+                Sqex[1].innerText = (myWidth * myHeight);
+                Sqex[2].innerText = (myWidth * myHeight) * 929.03;
+                Sqex[3].innerText = (myWidth * myHeight) * 92903;
+                areaUnit.innerText = 'Inch';
+
+            } else if (Options.value == 'cm') {
+                //Width
+                Wex[0].innerText = myWidth / 30.48;
+                Wex[1].innerText = myWidth / 2.54;
+                Wex[2].innerText = myWidth;
+                Wex[3].innerText = myWidth * 10;
+
+                //Height
+                Hex[0].innerText = myHeight / 30.48;
+                Hex[1].innerText = myHeight / 2.54;
+                Hex[2].innerText = myHeight;
+                Hex[3].innerText = myHeight * 10;
+
+                Sqex[0].innerText = (myWidth * myHeight) / 929.03;
+                Sqex[1].innerText = (myWidth * myHeight) / 6.452;
+                Sqex[2].innerText = (myWidth * myHeight);
+                Sqex[3].innerText = (myWidth * myHeight) * 100;
+                areaUnit.innerText = 'Cm';
+
+            } else if (Options.value == 'mm') {
+                //Width
+                Wex[0].innerText = myWidth / 304.8;
+                Wex[1].innerText = myWidth / 25.4;
+                Wex[2].innerText = myWidth / 10;
+                Wex[3].innerText = myWidth;
+
+                //Height
+                Hex[0].innerText = myHeight / 304.8;
+                Hex[1].innerText = myHeight / 25.4;
+                Hex[2].innerText = myHeight / 10;
+                Hex[3].innerText = myHeight;
+
+                Sqex[0].innerText = (myWidth * myHeight) / 92903;
+                Sqex[1].innerText = (myWidth * myHeight) / 645.2;
+                Sqex[2].innerText = (myWidth * myHeight) / 100;
+                Sqex[3].innerText = (myWidth * myHeight);
+                areaUnit.innerText = 'Mm';
+            }
+
+        }
+
+        // (((width X height) X rate) X qty)
+        /*
+        width : 
+         ft: 
+         inch: 
+         cm:
+         mm: 
+        Height : 
+         ft: 
+         inch: 
+         cm:
+         mm:
+
+        sqft: 
+         ft: 
+         inch: 
+         cm:
+         mm: 
+             
+        */
+
+    </script>
+</body>
+
+</html>
