@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Door Calculator</title>
+    <title>Document</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tektur:wght@600&display=swap');
         * {
@@ -84,7 +84,7 @@
             border: none;
         }
         #showResult button {
-           width: 120px;
+            width: 120px;
             height: 2.5em;
             font-size: 1.25rem;
             background-color: rgb(76, 73, 255);
@@ -176,10 +176,10 @@
             <div id="sqftDetails">
                 <p style="font-size: 1.25em;">area/sq<span id="areaUnit">Ft</span> : <span id="exArea"></span></p>
                 <ul>
-                    <li>ft : <span class="Sqex"></span></li>
-                    <li>inch : <span class="Sqex"></span></li>
-                    <li>cm: <span class="Sqex"></span></li>
-                    <li>mm : <span class="Sqex"></span></li>
+                    <li>sqFt : <span class="Sqex"></span></li>
+                    <li>sqInch : <span class="Sqex"></span></li>
+                    <li>sqCm: <span class="Sqex"></span></li>
+                    <li>sqMm : <span class="Sqex"></span></li>
                 </ul>
             </div>
         </div>
@@ -262,103 +262,82 @@
 
             if (Options.value == 'ft') {
                 //Width
-                Wex[0].innerText = myWidth;
-                Wex[1].innerText = myWidth * 12;
-                Wex[2].innerText = myWidth * 30.48;
-                Wex[3].innerText = myWidth * 304.8;
+                Wex[0].innerText = (myWidth).toFixed(3);
+                Wex[1].innerText = (myWidth * 12).toFixed(3);
+                Wex[2].innerText = (myWidth * 30.48).toFixed(3);
+                Wex[3].innerText = (myWidth * 304.8).toFixed(3);
 
                 //Height
-                Hex[0].innerText = myHeight;
-                Hex[1].innerText = myHeight * 12;
-                Hex[2].innerText = myHeight * 30.48;
-                Hex[3].innerText = myHeight * 304.8;
+                Hex[0].innerText = (myHeight).toFixed(3);
+                Hex[1].innerText = (myHeight * 12).toFixed(3);
+                Hex[2].innerText = (myHeight * 30.48).toFixed(3);
+                Hex[3].innerText = (myHeight * 304.8).toFixed(3);
 
-                Sqex[0].innerText = (myWidth * myHeight);
-                Sqex[1].innerText = (myWidth * myHeight) * 144;
-                Sqex[2].innerText = (myWidth * myHeight) * 929.03;
-                Sqex[3].innerText = (myWidth * myHeight) * 92903;
+                Sqex[0].innerText = (myWidth * myHeight).toFixed(3);
+                Sqex[1].innerText = ((myWidth * myHeight) * 144).toFixed(3);
+                Sqex[2].innerText = ((myWidth * myHeight) * 929.03).toFixed(3);
+                Sqex[3].innerText = ((myWidth * myHeight) * 92903).toFixed(3);
 
                 areaUnit.innerText = 'Ft';
             } else if (Options.value == 'inch') {
                 //Width
-                Wex[0].innerText = myWidth / 12;
-                Wex[1].innerText = myWidth;
-                Wex[2].innerText = myWidth * 2.54;
-                Wex[3].innerText = myWidth * 25.4;
+                Wex[0].innerText = (myWidth / 12).toFixed(3);
+                Wex[1].innerText = (myWidth).toFixed(3);
+                Wex[2].innerText = (myWidth * 2.54).toFixed(3);
+                Wex[3].innerText = (myWidth * 25.4).toFixed(3);
 
                 //Height
-                Hex[0].innerText = myHeight / 12;
-                Hex[1].innerText = myHeight;
-                Hex[2].innerText = myHeight * 2.54;
-                Hex[3].innerText = myHeight * 25.4;
+                Hex[0].innerText = (myHeight / 12).toFixed(3);
+                Hex[1].innerText = (myHeight).toFixed(3);
+                Hex[2].innerText = (myHeight * 2.54).toFixed(3);
+                Hex[3].innerText = (myHeight * 25.4).toFixed(3);
 
-                Sqex[0].innerText = (myWidth * myHeight) / 144;
-                Sqex[1].innerText = (myWidth * myHeight);
-                Sqex[2].innerText = (myWidth * myHeight) * 929.03;
-                Sqex[3].innerText = (myWidth * myHeight) * 92903;
+                Sqex[0].innerText = ((myWidth * myHeight) / 144).toFixed(3);
+                Sqex[1].innerText = (myWidth * myHeight).toFixed(3);
+                Sqex[2].innerText = ((myWidth * myHeight) * 929.03).toFixed(3);
+                Sqex[3].innerText = ((myWidth * myHeight) * 92903).toFixed(3);
                 areaUnit.innerText = 'Inch';
 
             } else if (Options.value == 'cm') {
                 //Width
-                Wex[0].innerText = myWidth / 30.48;
-                Wex[1].innerText = myWidth / 2.54;
-                Wex[2].innerText = myWidth;
-                Wex[3].innerText = myWidth * 10;
+                Wex[0].innerText = (myWidth / 30.48).toFixed(3);
+                Wex[1].innerText = (myWidth / 2.54).toFixed(3);
+                Wex[2].innerText = (myWidth).toFixed(3);
+                Wex[3].innerText = (myWidth * 10).toFixed(3);
 
                 //Height
-                Hex[0].innerText = myHeight / 30.48;
-                Hex[1].innerText = myHeight / 2.54;
-                Hex[2].innerText = myHeight;
-                Hex[3].innerText = myHeight * 10;
+                Hex[0].innerText = (myHeight / 30.48).toFixed(3);
+                Hex[1].innerText = (myHeight / 2.54).toFixed(3);
+                Hex[2].innerText = (myHeight).toFixed(3);
+                Hex[3].innerText = (myHeight * 10).toFixed(3);
 
-                Sqex[0].innerText = (myWidth * myHeight) / 929.03;
-                Sqex[1].innerText = (myWidth * myHeight) / 6.452;
-                Sqex[2].innerText = (myWidth * myHeight);
-                Sqex[3].innerText = (myWidth * myHeight) * 100;
+                Sqex[0].innerText = ((myWidth * myHeight) / 929.03).toFixed(3);
+                Sqex[1].innerText = ((myWidth * myHeight) / 6.452).toFixed(3);
+                Sqex[2].innerText = (myWidth * myHeight).toFixed(3);
+                Sqex[3].innerText = ((myWidth * myHeight) * 100).toFixed(3);
                 areaUnit.innerText = 'Cm';
 
             } else if (Options.value == 'mm') {
                 //Width
-                Wex[0].innerText = myWidth / 304.8;
-                Wex[1].innerText = myWidth / 25.4;
-                Wex[2].innerText = myWidth / 10;
-                Wex[3].innerText = myWidth;
+                Wex[0].innerText = (myWidth / 304.8).toFixed(3);
+                Wex[1].innerText = (myWidth / 25.4).toFixed(3);
+                Wex[2].innerText = (myWidth / 10).toFixed(3);
+                Wex[3].innerText = (myWidth).toFixed(3);
 
                 //Height
-                Hex[0].innerText = myHeight / 304.8;
-                Hex[1].innerText = myHeight / 25.4;
-                Hex[2].innerText = myHeight / 10;
-                Hex[3].innerText = myHeight;
+                Hex[0].innerText = (myHeight / 304.8).toFixed(3);
+                Hex[1].innerText = (myHeight / 25.4).toFixed(3);
+                Hex[2].innerText = (myHeight / 10).toFixed(3);
+                Hex[3].innerText = (myHeight).toFixed(3);
 
-                Sqex[0].innerText = (myWidth * myHeight) / 92903;
-                Sqex[1].innerText = (myWidth * myHeight) / 645.2;
-                Sqex[2].innerText = (myWidth * myHeight) / 100;
-                Sqex[3].innerText = (myWidth * myHeight);
+                Sqex[0].innerText = ((myWidth * myHeight) / 92903).toFixed(3);
+                Sqex[1].innerText = ((myWidth * myHeight) / 645.2).toFixed(3);
+                Sqex[2].innerText = ((myWidth * myHeight) / 100).toFixed(3);
+                Sqex[3].innerText = (myWidth * myHeight).toFixed(3);
                 areaUnit.innerText = 'Mm';
             }
 
         }
-
-        // (((width X height) X rate) X qty)
-        /*
-        width : 
-         ft: 
-         inch: 
-         cm:
-         mm: 
-        Height : 
-         ft: 
-         inch: 
-         cm:
-         mm:
-
-        sqft: 
-         ft: 
-         inch: 
-         cm:
-         mm: 
-             
-        */
 
     </script>
 </body>
